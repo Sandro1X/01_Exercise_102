@@ -1,20 +1,18 @@
 
 import java.io.File;
 
-
 public class MiniExplorerGUI extends javax.swing.JFrame {
+
     private FileModel fm = new FileModel();
-    
+
     public MiniExplorerGUI() {
         initComponents();
         li.setModel(fm);
         li.setCellRenderer(new FileListRenderer());
-        File dir = new File(".");
-        
-        for (File f : dir.listFiles()) {
-            fm.add(new FileF(f.getAbsolutePath()));
-        }
+        fm.selectDir(new File("."));
+        fm.sort();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -24,6 +22,11 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        li.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                liMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(li);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -39,6 +42,14 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void liMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_liMouseClicked
+        if (evt.getClickCount() == 2) {
+            fm.directoryChanged(li.getSelectedIndex());
+//            fm.directoryChanged(li.getSelectedIndex(), f);
+            fm.sort();
+        }
+    }//GEN-LAST:event_liMouseClicked
 
     /**
      * @param args the command line arguments

@@ -34,9 +34,17 @@ public class FileF extends File{
     
     @Override
     public String toString(){
-        if (this.isDirectory()){
-            return String.format("%s %s %s", name, changeDate, attributes);
+        if (this.isDirectory() && this.hidden){
+            return String.format("%-41s hidden", name);
         }
-        return String.format("%s %s %s KB %s", name, changeDate, size, attributes);
+        if(this.isDirectory()){
+            return String.format("%s", name);
+        }
+        else if(this.isFile() && this.hidden){
+            return String.format("%-15s %-22s %5s KB %s hidden", name, changeDate, size, attributes);
+        }if(this.isFile()){
+            return String.format("%-15s %-22s %5s KB %s", name, changeDate, size, attributes);
+        }
+        return "";
     }
 }
