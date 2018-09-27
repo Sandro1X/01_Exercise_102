@@ -1,27 +1,42 @@
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 
 public class FileF extends File{
     private String name;
     private LocalDateTime changeDate;
-    private int size;
+    private long size;
     private String attributes;
     private boolean hidden;
     
-    public FileF(String pathname, String name, LocalDateTime changeDate, int size, 
-            String attributes, boolean hidden) {
+    public FileF(String pathname) {
         super(pathname);
-        this.name = name;
-        this.changeDate = changeDate;
-        this.size = size;
+        this.name = this.getName();
+        this.changeDate = LocalDateTime.ofEpochSecond(this.lastModified() / 1000, 0, ZoneOffset.UTC);
+        this.size = this.length();
         this.attributes = attributes;
-        this.hidden = hidden;
+        this.hidden = this.isHidden();
+        this.attributes = "";
     }
     
-    public FileF(String pathname, String name){
-        super(pathname);
-        this.name = name;
+    public String setAttributes(){
+        if(this.canRead()){
+            attributes += "R";
+        }if(this.canWrite()){
+            attributes += "W";
+        }if(this.canExecute()){
+            attributes += "X";
+        }
+        return attributes;
+    }
+    
+    @Override
+    public String toString(){
+        if (this.isDirectory()){
+            return String.format("%s %s %s", name, changeDate, attributes);
+        }
+        return String.format("%s %s %s KB %s", name, changeDate, size, attributes);
     }
 }
