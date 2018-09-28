@@ -46,7 +46,6 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
     private void liMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_liMouseClicked
         if (evt.getClickCount() == 2) {
             fm.directoryChanged(li.getSelectedIndex());
-//            fm.directoryChanged(li.getSelectedIndex(), f);
             fm.sort();
         }
     }//GEN-LAST:event_liMouseClicked
